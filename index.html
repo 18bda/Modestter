@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modestter</title>
+    <style>
+        /* Add your own custom CSS styles here */
+        body {
+            font-family: sans-serif,;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: rgb(231, 214, 189);
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        header nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        header nav ul li {
+            margin-right: 10px;
+        }
+
+        header nav ul li a {
+            color: rgb(3, 3, 3);
+            text-decoration: none;
+        }
+
+        header nav ul li:last-child {
+            margin-right: 0;
+        }
+
+        .headline {
+            text-align: center;
+            margin-top: 0px;
+            font-size: 28px;
+            color: rgb(3, 3, 3);
+        }
+
+        .headline2 {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 13px;
+            color: rgb(3, 3, 3);
+        }
+
+
+        .tweet-form {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #e4d3b6;
+            padding: 10px;
+            border-radius: 5px;
+            width: 250px; /* Adjust the width as desired */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a box shadow for styling */
+        }
+
+        .tweet-form textarea {
+            width: 90%;
+            height: 70px; /* Adjust the height as desired */
+            resize: none;
+            padding: 5px;
+            border: none;
+            border-radius: 3px;
+            box-shadow: inset 0 2px 4px rgba(3, 2, 2, 0.1); /* Add a box shadow for styling */
+            font-size: 14px;
+        }
+
+        .tweet-form input[type="text"] {
+            width: 90%;
+            padding: 5px;
+            border: none;
+            border-radius: 3px;
+            box-shadow: inset 0 2px 4px rgba(3, 2, 2, 0.1); /* Add a box shadow for styling */
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .tweet-form button {
+            margin-top: 10px;
+            background-color: #000000; /* Add a background color for the button */
+            color: rgb(237, 222, 186);
+            padding: 8px 12px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .tweet-form button:hover {
+            background-color: #e2c49d; /* Add a hover color for the button */
+        }
+
+        .tweet-list {
+            position: absolute;
+            top: 80px;
+            left: 0%;
+            text-align: right;
+        }
+
+        .tweet-item {
+            display: block;
+            margin-bottom: 10px;
+            background-color: transparent; /* Remove the border color */
+            position: relative;
+        }
+
+        .tweet-item .tweet-content {
+            font-weight: bold;
+
+        }
+
+        .tweet-item .tweet-username {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .tweet-item .delete-icon {
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+        }
+
+        .tweet-item .delete-icon img {
+            height: 16px;
+        }
+
+        .moon, .shadow {
+            margin: auto;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgb(0, 0, 0);
+            border-radius: 50%;
+            height: 50px;
+            width: 50px;
+        }
+
+        .shadow {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            background: #ffffff;
+            /*Change these color to the bg of your website*/
+            transition: all .3s ease;
+            animation: move_4123 1.2s infinite alternate ease-in-out;
+            transform: translate3d(8px, -8px, 0);
+        }
+
+        @keyframes move_4123 {
+            100% {
+                transform: translate3d(36px, -36px, 0);
+            }
+        }
+
+.headline-image {
+    text-align: center;
+    margin-top: px;
+}
+
+.headline-image img {
+    max-width: 50%;
+    height: 120px;
+}
+
+.username-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.tweet-username {
+  margin-right: 5px;
+}
+
+.tweet-item .view-profile {
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+        }
+
+.tweet-item .view-profile img {
+    height: 16px;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <img src="images/IMG_7921.jpg" alt="Logo">
+        <nav>
+            <ul>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="headline-image">
+      <img src="images/islamic.jpeg" alt="Headline Image">
+  </div>
+  
+    <h1 class="headline">Discover the wonders of Islam</h1>
+    <div>
+        <h3 class="headline2">Explore and understand Islam as well as sharing what you know about the beautiful deen</h3>
+    </div>
+
+    <div class="tweet-list">
+        <ul id="tweetList"></ul>
+    </div>
+
+    <div class="tweet-form">
+        <textarea id="tweetInput" placeholder="Write your note"></textarea>
+        <input type="text" id="usernameInput" placeholder="Your username">
+        <button id="tweetButton">Note</button>
+        <button id="changeUsernameButton">Change Username</button>
+    </div>
+
+    <div class="moon">
+        <div class="shadow"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        var storedTweets = JSON.parse(localStorage.getItem('tweets')) || [];
+        var tweetList = document.getElementById('tweetList');
+
+        storedTweets = storedTweets.filter(function (tweet) {
+            return !tweet.deleted;
+        });
+
+        storedTweets.forEach(function (tweet) {
+            var tweetItem = createTweetItem(tweet.text, tweet.username);
+            tweetList.appendChild(tweetItem);
+        });
+
+        // Rest of the code...
+        });
+
+            var tweetButton = document.getElementById('tweetButton');
+            tweetButton.addEventListener('click', tweet);
+
+            var changeUsernameButton = document.getElementById('changeUsernameButton');
+            changeUsernameButton.addEventListener('click', changeUsername);
+
+            // Retrieve and set the stored username
+            var storedUsername = localStorage.getItem('username');
+            var usernameInput = document.getElementById('usernameInput');
+
+            if (storedUsername) {
+                usernameInput.value = storedUsername;
+            }
+        
+
+        function tweet() {
+            var tweetInput = document.getElementById('tweetInput');
+            var tweetText = tweetInput.value.trim();
+
+            if (tweetText === '') {
+                alert('Please enter a tweet.');
+                return;
+            }
+
+            var usernameInput = document.getElementById('usernameInput');
+            var username = usernameInput.value.trim();
+
+            if (username === '') {
+                alert('Please enter your username.');
+                return;
+            }
+
+            // Prepend the hashtag to the tweet text if it doesn't already start with one
+            if (!tweetText.startsWith('#')) {
+                tweetText = '#' + tweetText;
+            }
+
+            var tweetItem = createTweetItem(tweetText, username);
+            var tweetList = document.getElementById('tweetList');
+            tweetList.insertBefore(tweetItem, tweetList.firstChild);
+
+            tweetInput.value = '';
+
+            // Store the tweet in local storage
+            var storedTweets = JSON.parse(localStorage.getItem('tweets')) || [];
+            storedTweets.push({ text: tweetText, username: username });
+            localStorage.setItem('tweets', JSON.stringify(storedTweets));
+
+            // Store the username in local storage
+            localStorage.setItem('username', username);
+            }
+
+
+        function deleteTweet(element) {
+            var tweetItem = element.closest('.tweet-item');
+            tweetItem.parentNode.removeChild(tweetItem);
+
+            // Update the stored tweets in local storage
+            var tweetText = tweetItem.querySelector('.tweet-content').textContent;
+            var tweetUsername = tweetItem.querySelector('.tweet-username').textContent.slice(1); // Remove the "@" symbol
+            var storedTweets = JSON.parse(localStorage.getItem('tweets')) || [];
+
+            storedTweets = storedTweets.filter(function (tweet) {
+                return tweet.text !== tweetText || tweet.username !== tweetUsername;
+            });
+
+            localStorage.setItem('tweets', JSON.stringify(storedTweets));
+}
+
+        function createTweetItem(text, username) {
+            var tweetItem = document.createElement('li');
+            tweetItem.className = 'tweet-item';
+            tweetItem.deleted = false; 
+
+            var tweetContent = document.createElement('span');
+            tweetContent.className = 'tweet-content';
+
+            var words = text.split(' ');
+            var lines = [];
+            var currentLine = '';
+
+            words.forEach(function (word) {
+                if (currentLine.length + word.length > 30) { // Adjust the line length limit as needed
+                lines.push(currentLine.trim());
+                currentLine = '';
+                }
+                currentLine += word + ' ';
+            });
+
+            lines.push(currentLine.trim());
+
+            tweetContent.innerHTML = lines.join('<br>');
+
+            var tweetUsername = document.createElement('span');
+            tweetUsername.className = 'tweet-username';
+            tweetUsername.textContent = '@' + username;
+
+            var deleteIcon = document.createElement('span');
+            deleteIcon.className = 'delete-icon';
+            deleteIcon.innerHTML = '<img src="images/del.jpeg">';
+            deleteIcon.addEventListener('click', function () {
+                deleteTweet(this);
+            });
+
+            var usernameContainer = document.createElement('div');
+            usernameContainer.className = 'username-container';
+            usernameContainer.appendChild(tweetUsername);
+            usernameContainer.appendChild(deleteIcon);
+
+            tweetItem.appendChild(usernameContainer);
+            tweetItem.appendChild(tweetContent);
+
+            return tweetItem;
+            }
+
+        function changeUsername() {
+            var usernameInput = document.getElementById('usernameInput');
+            var newUsername = prompt('Enter your new username:');
+
+            if (newUsername && newUsername.trim() !== '') {
+                usernameInput.value = newUsername;
+
+                // Store the updated username in local storage
+                localStorage.setItem('username', newUsername.trim());
+            }
+        }
+
+    </script>
+</body>
+</html>
